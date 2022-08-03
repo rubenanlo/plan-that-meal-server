@@ -4,10 +4,23 @@ const { Schema, model } = require("mongoose");
 const recipeSchema = new Schema(
   {
     img: { String },
-    title: { String, required: true },
-    description: { String, required: true },
-    serving: number,
-    ingredients: [{ type: Schema.Types.ObjectId, ref: "Ingredients" }],
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    serving: Number,
+    protein: {
+      type: String,
+      enum: ["Meat", "Fish", "Eggs", "Legumes", "Seeds and nuts"],
+    },
+    ingredients: [
+      {
+        ingredient: {
+          Type: String,
+        },
+        quantity: {
+          Type: String,
+        },
+      },
+    ],
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",

@@ -14,12 +14,12 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    match: [/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}/],
+    match: [/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/],
   },
   name: {
     type: String,
     unique: true,
-    required: [true, "You need to have a User Name"],
+    required: [true, "You need to have a name"],
   },
 });
 const User = model("User", userSchema);

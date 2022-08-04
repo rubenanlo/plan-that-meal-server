@@ -34,6 +34,19 @@ router.post("/recipes", isAuthenticated, (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
+//GET A RANDOM recipe
+router.get("/recipes/random", (req, res, next) => {
+  console.log("YAY");
+  Recipe.find()
+    .populate("user")
+    .populate("weeklyPlan")
+    .then((allRecipes) => {
+      const random = Math.floor(Math.random() * allRecipes.length);
+      res.json(allRecipes[random]);
+    })
+    .catch((err) => res.json(err));
+});
+
 //READ recipe details
 router.get("/recipes/:recipeId", (req, res, next) => {
   const { recipeId } = req.params;

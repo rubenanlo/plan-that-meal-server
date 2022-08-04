@@ -2,10 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const weeklyplanSchema = new Schema(
   {
-    date: { type: Date, min: "2020-12-27" },
-    protein: {
+    startDate: { type: Date, min: "2020-12-27" },
+    mealType: {
       type: String,
-      enum: ["Meat", "Fish", "Eggs", "Legumes", "Seeds and nuts"],
+      enum: ["Breakfast", "Lunch", "Dinner"],
     },
     weeklyRecipes: [
       {
@@ -21,8 +21,6 @@ const weeklyplanSchema = new Schema(
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
-    createdAt: true,
-    updatedAt: true,
   }
 );
 

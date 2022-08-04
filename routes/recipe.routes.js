@@ -72,7 +72,20 @@ router.delete("/recipes/:recipeId", isAuthenticated, (req, res, next) => {
     return;
   }
 
-  Recipe.findByIdAndRemove(recipeId)
+  WeeklyPlan.find()
+    .then((response) =>
+      response.forEach((weeklyPlan) => {
+        console.log("ID IS......" + weeklyPlan._id);
+        console.log("RECIPES ARE......" + weeklyPlan.weeklyRecipes);
+        if (weeklyPlan.weeklyRecipes === recipeId) {
+          WeeklyPlan.findByIdAndUpdate(weeklyPlan._id, { weeklyRecipes: "" });
+        }
+      })
+    )
+    .then((response) => {
+      console.log("AFTER UPDATING PLAN......" + response);
+      Recipe.findByIdAndDelete(recipeId);
+    })
     .then(() =>
       res.json({
         message: `Recipe with id ${recipeId} was removed successfully.`,

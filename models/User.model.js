@@ -18,7 +18,6 @@ const userSchema = new Schema({
   },
   name: {
     type: String,
-    unique: true,
     required: [true, "You need to have a name"],
   },
 });

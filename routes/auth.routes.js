@@ -36,7 +36,7 @@ router.post("/signup", (req, res) => {
   }
 
   // Search the database for a user with the username submitted in the form
-  User.findOne({ username }).then((found) => {
+  User.findOne({ name: username }).then((found) => {
     // If the user is found, send the message username is taken
     if (found) {
       return res.status(400).json({ errorMessage: "Username already taken." });
@@ -50,7 +50,7 @@ router.post("/signup", (req, res) => {
         // Create a user and save it in the database
         return User.create({
           email,
-          username,
+          name: username,
           password: hashedPassword,
         });
       })
@@ -91,7 +91,7 @@ router.post("/login", (req, res, next) => {
   }
 
   // Search the database for a user with the username submitted in the form
-  User.findOne({ username })
+  User.findOne({ name: username })
     .then((user) => {
       // If the user isn't found, send the message that user provided wrong credentials
       if (!user) {
@@ -104,10 +104,10 @@ router.post("/login", (req, res, next) => {
           return res.status(400).json({ errorMessage: "Wrong credentials." });
         }
 
-        const { _id, email, username } = user;
+        const { _id, email, name } = user;
 
         // Create an object that will be set as the token payload
-        const payload = { _id, email, username };
+        const payload = { _id, email, name };
 
         // Create and sign the token
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {

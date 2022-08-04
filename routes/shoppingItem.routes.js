@@ -5,7 +5,7 @@ const ShoppingItem = require("../models/ShoppingItem.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 //READ list of recipes
-router.get("/shoppingitems", (req, res, next) => {
+router.get("/shoppingitems", isAuthenticated, (req, res, next) => {
   ShoppingItem.find()
     .then((allShoppingItems) => {
       res.json(allShoppingItems);
@@ -19,5 +19,28 @@ router.post("/shoppingitems", isAuthenticated, (req, res, next) => {
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
 });
+
+router.delete(
+  "/shoppingitems/:shoppingItemId",
+  isAuthenticated,
+  (req, res, next) => {
+    const { shoppingItemId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(shoppingItemId)) {
+      res.status(400).json({ message: "Specified id is not valid" });
+      return;
+    }
+
+    console.log("pizza");
+
+    ShoppingItem.findByIdAndRemove(shoppingItemId)
+      .then(() => {
+        res.json({
+          message: `Item with id ${shoppingItemId} was removed successfully.`,
+        });
+      })
+      .catch((error) => res.status(500).json(error));
+  }
+);
 
 module.exports = router;

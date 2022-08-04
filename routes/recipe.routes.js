@@ -63,35 +63,4 @@ router.put("/recipes/:recipeId", isAuthenticated, (req, res, next) => {
     .catch((error) => res.json(error));
 });
 
-//DELETE recipe
-router.delete("/recipes/:recipeId", isAuthenticated, (req, res, next) => {
-  const { recipeId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(recipeId)) {
-    res.status(400).json({ message: "Specified id is not valid" });
-    return;
-  }
-
-  WeeklyPlan.find()
-    .then((response) =>
-      response.forEach((weeklyPlan) => {
-        console.log("ID IS......" + weeklyPlan._id);
-        console.log("RECIPES ARE......" + weeklyPlan.weeklyRecipes);
-        if (weeklyPlan.weeklyRecipes === recipeId) {
-          WeeklyPlan.findByIdAndUpdate(weeklyPlan._id, { weeklyRecipes: "" });
-        }
-      })
-    )
-    .then((response) => {
-      console.log("AFTER UPDATING PLAN......" + response);
-      Recipe.findByIdAndDelete(recipeId);
-    })
-    .then(() =>
-      res.json({
-        message: `Recipe with id ${recipeId} was removed successfully.`,
-      })
-    )
-    .catch((error) => res.status(500).json(error));
-});
-
 module.exports = router;

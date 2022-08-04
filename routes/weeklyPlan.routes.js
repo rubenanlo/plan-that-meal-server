@@ -41,6 +41,28 @@ router.get("/weeklyplans/:weeklyPlanId", isAuthenticated, (req, res, next) => {
     .catch((error) => res.json(error));
 });
 
+//DELETE weekly plan details
+router.delete(
+  "/weeklyplans/:weeklyPlanId",
+  isAuthenticated,
+  (req, res, next) => {
+    const { weeklyPlanId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(weeklyPlanId)) {
+      res.status(400).json({ message: "Specified id is not valid" });
+      return;
+    }
+
+    WeeklyPlan.findByIdAndRemove(weeklyPlanId)
+      .then(() =>
+        res.json({
+          message: `Weekly Plan with id ${weeklyPlanId} was removed successfully.`,
+        })
+      )
+      .catch((error) => res.status(500).json(error));
+  }
+);
+
 // //READ list of recipes for weeklyplanner
 // router.get(
 //   "/weeklyplan/:weeklyPlanId/recipes",

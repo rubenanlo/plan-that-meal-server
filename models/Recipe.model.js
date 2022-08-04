@@ -11,16 +11,11 @@ const recipeSchema = new Schema(
       type: String,
       enum: ["Meat", "Fish", "Eggs", "Legumes", "Seeds and nuts"],
     },
-    ingredients: [
-      {
-        ingredient: {
-          Type: String,
-        },
-        quantity: {
-          Type: String,
-        },
-      },
-    ],
+    ingredients: {
+      type: Array,
+      items: [{ ingredient: String }, { quantity: String }],
+    },
+    weeklyPlan: [{ type: Schema.Types.ObjectId, ref: "WeeklyPlan" }],
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",

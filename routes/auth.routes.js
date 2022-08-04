@@ -65,7 +65,7 @@ router.post("/signup", (req, res) => {
         if (error.code === 11000) {
           return res.status(400).json({
             errorMessage:
-              "Username need to be unique. The username you chose is already in use.",
+              "User need to be unique. Some of the details you provided are already in use.",
           });
         }
         return res.status(500).json({ errorMessage: error.message });

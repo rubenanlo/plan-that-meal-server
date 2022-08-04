@@ -2,7 +2,11 @@ const { Schema, model } = require("mongoose");
 
 const weeklyplanSchema = new Schema(
   {
-    startDate: { type: Date, min: "2020-12-27" },
+    startDate: {
+      type: Date,
+      min: "2020-12-27",
+      default: () => Date.now(),
+    },
     mealType: {
       type: String,
       enum: ["Breakfast", "Lunch", "Dinner"],

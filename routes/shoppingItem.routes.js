@@ -1,5 +1,5 @@
 const router = require("express").Router();
-// const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const ShoppingItem = require("../models/ShoppingItem.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
@@ -20,25 +20,24 @@ router.post("/shoppingitems", isAuthenticated, (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
+//DELETE shooping item
 router.delete(
-  "/shoppingitems/:shoppingItemId",
+  "/shoppingitems/:shoppingitemsId",
   isAuthenticated,
   (req, res, next) => {
-    const { shoppingItemId } = req.params;
+    const { shoppingitemsId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(shoppingItemId)) {
+    if (!mongoose.Types.ObjectId.isValid(shoppingitemsId)) {
       res.status(400).json({ message: "Specified id is not valid" });
       return;
     }
 
-    console.log("pizza");
-
-    ShoppingItem.findByIdAndRemove(shoppingItemId)
-      .then(() => {
+    ShoppingItem.findByIdAndRemove(shoppingitemsId)
+      .then(() =>
         res.json({
-          message: `Item with id ${shoppingItemId} was removed successfully.`,
-        });
-      })
+          message: `Shopping item with id ${shoppingitemsId} was removed successfully.`,
+        })
+      )
       .catch((error) => res.status(500).json(error));
   }
 );

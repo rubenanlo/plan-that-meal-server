@@ -10,18 +10,25 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 //READ list of all weekly plans
 router.get("/weeklyplans", isAuthenticated, (req, res, next) => {
   WeeklyPlan.find()
+    .populate("user")
     .populate("weeklyRecipes")
     .then((allWeeklyPlans) => {
-      res.json(allWeeklyPlans);
+      const userWeeklyPlan = allWeeklyPlans.filter(
+        (weeklyPlan) => weeklyPlan.user._id == req.payload._id
+      );
+      res.json(userWeeklyPlan);
     })
     .catch((err) => res.json(err));
 });
 
 //  CREATE a weekly plan without recipes
 router.post("/weeklyplans", isAuthenticated, (req, res, next) => {
-  const { startDate, mealType } = req.body;
-
-  WeeklyPlan.create({ startDate, mealType, weeklyRecipes: [] })
+  WeeklyPlan.create({
+    startDate: req.body.startDate,
+    mealType: req.body.mealType,
+    weeklyRecipes: [],
+    user: req.payload._id,
+  })
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
 });

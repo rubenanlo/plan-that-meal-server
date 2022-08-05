@@ -16,7 +16,8 @@ const userSchema = new Schema({
     trim: true,
     match: [/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/],
   },
-  name: {
+  username: {
+    unique: true,
     type: String,
     required: [true, "You need to have a name"],
   },

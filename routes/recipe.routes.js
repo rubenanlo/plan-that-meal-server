@@ -9,7 +9,7 @@ const WeeklyPlan = require("../models/WeeklyPlan.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 //READ list of recipes
-router.get("/recipes", (req, res, next) => {
+router.get("/recipes", isAuthenticated, (req, res, next) => {
   Recipe.find()
     .populate("user")
     .populate("weeklyPlan")
@@ -35,7 +35,7 @@ router.post("/recipes", isAuthenticated, (req, res, next) => {
 });
 
 //GET A RANDOM recipe
-router.get("/recipes/random", (req, res, next) => {
+router.get("/recipes/random", isAuthenticated, (req, res, next) => {
   console.log("YAY");
   Recipe.find()
     .populate("user")
@@ -48,7 +48,7 @@ router.get("/recipes/random", (req, res, next) => {
 });
 
 //READ recipe details
-router.get("/recipes/:recipeId", (req, res, next) => {
+router.get("/recipes/:recipeId", isAuthenticated, (req, res, next) => {
   const { recipeId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(recipeId)) {

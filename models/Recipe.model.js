@@ -6,14 +6,14 @@ const recipeSchema = new Schema(
     img: String,
     title: { type: String, required: true },
     description: { type: String, required: true },
-    serving: Number,
+    serving: { type: Number },
     protein: {
       type: String,
       enum: ["Meat", "Fish", "Eggs", "Legumes", "Seeds and nuts"],
     },
     ingredients: {
       type: Array,
-      items: [{ ingredient: String, quantity: String }],
+      items: { id: String, ingredient: String, quantity: String },
     },
 
     weeklyPlan: [{ type: Schema.Types.ObjectId, ref: "WeeklyPlan" }],

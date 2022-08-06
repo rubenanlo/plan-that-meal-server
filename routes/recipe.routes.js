@@ -27,7 +27,7 @@ router.post("/recipes", isAuthenticated, (req, res, next) => {
     description: req.body.description,
     serving: req.body.serving,
     protein: req.body.protein,
-    ingredients: [req.body.ingredients],
+    ingredients: req.body.ingredients,
     user: req.payload._id,
   })
     .then((response) => res.json(response))

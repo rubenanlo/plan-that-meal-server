@@ -25,6 +25,7 @@ router.get("/weeklyplans", isAuthenticated, (req, res, next) => {
 router.post("/weeklyplans", isAuthenticated, (req, res, next) => {
   WeeklyPlan.create({
     startDate: req.body.startDate,
+    imagePlan: req.body.imagePlan,
     mealType: req.body.mealType,
     weeklyRecipes: [],
     user: req.payload._id,

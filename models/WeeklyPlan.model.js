@@ -2,6 +2,9 @@ const { Schema, model } = require("mongoose");
 
 const weeklyplanSchema = new Schema(
   {
+    imagePlan: {
+      type: String,
+    },
     startDate: {
       type: Date,
       min: "2020-12-27",

@@ -36,7 +36,6 @@ router.post("/recipes", isAuthenticated, (req, res, next) => {
 
 //GET A RANDOM recipe
 router.get("/recipes/random", isAuthenticated, (req, res, next) => {
-  console.log("YAY");
   Recipe.find()
     .populate("user")
     .populate("weeklyPlan")

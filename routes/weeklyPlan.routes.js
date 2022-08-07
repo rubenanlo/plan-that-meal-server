@@ -140,10 +140,7 @@ router.post("/weeklyplans", isAuthenticated, (req, res, next) => {
         $push: { weeklyPlan: newMealPlan._id },
       });
     })
-    .then(
-      console.log("this is the number.....72")
-      // res.json(response)
-    )
+    .then(res.json(response))
     .catch((err) => res.json(err));
 });
 

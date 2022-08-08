@@ -5,7 +5,9 @@ const shoppingitemSchema = new Schema(
     description: { type: String },
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
+    quantity: { type: String },
+  },
+  {
     timestamps: true,
   }
 );

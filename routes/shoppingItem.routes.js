@@ -15,7 +15,10 @@ router.get("/shoppingitems", isAuthenticated, (req, res, next) => {
 
 //  POST /api/ShoppingItems  -  Creates a new ShoppingItem
 router.post("/shoppingitems", isAuthenticated, (req, res, next) => {
-  ShoppingItem.create({ description: req.body.description })
+  ShoppingItem.create({
+    description: req.body.description,
+    // quantity: req.body.quantity,
+  })
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
 });

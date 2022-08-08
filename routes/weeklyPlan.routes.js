@@ -11,20 +11,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 router.get("/weeklyplans", isAuthenticated, (req, res, next) => {
   WeeklyPlan.find()
     .populate("user")
-    .populate("mealRecipe11")
-    .populate("mealRecipe12")
-    .populate("mealRecipe21")
-    .populate("mealRecipe22")
-    .populate("mealRecipe31")
-    .populate("mealRecipe32")
-    .populate("mealRecipe41")
-    .populate("mealRecipe42")
-    .populate("mealRecipe51")
-    .populate("mealRecipe52")
-    .populate("mealRecipe61")
-    .populate("mealRecipe62")
-    .populate("mealRecipe71")
-    .populate("mealRecipe72")
+    .populate("mealRecipes")
     .then((allWeeklyPlans) => {
       const userWeeklyPlan = allWeeklyPlans.filter(
         (weeklyPlan) => weeklyPlan.user._id == req.payload._id
@@ -36,6 +23,7 @@ router.get("/weeklyplans", isAuthenticated, (req, res, next) => {
 
 //  CREATE a weekly plan of recipes
 router.post("/weeklyplans", isAuthenticated, (req, res, next) => {
+  console.log(req.body);
   WeeklyPlan.create({
     startDate: req.body.startDate,
     mealRecipes: req.body.mealRecipes,
@@ -57,7 +45,6 @@ router.post("/weeklyplans", isAuthenticated, (req, res, next) => {
   })
 
     .then((newMealPlan) => {
-      console.log("this is the plan id", newMealPlan._id);
       newMealPlan.mealRecipes.forEach((mealRecipe) => {
         Recipe.findByIdAndUpdate(mealRecipe, {
           $push: { weeklyPlan: newMealPlan._id },
@@ -165,20 +152,7 @@ router.get("/weeklyplans/:weeklyPlanId", isAuthenticated, (req, res, next) => {
   }
 
   WeeklyPlan.findById(weeklyPlanId)
-    .populate("mealRecipe11")
-    .populate("mealRecipe12")
-    .populate("mealRecipe21")
-    .populate("mealRecipe22")
-    .populate("mealRecipe31")
-    .populate("mealRecipe32")
-    .populate("mealRecipe41")
-    .populate("mealRecipe42")
-    .populate("mealRecipe51")
-    .populate("mealRecipe52")
-    .populate("mealRecipe61")
-    .populate("mealRecipe62")
-    .populate("mealRecipe71")
-    .populate("mealRecipe72")
+    .populate("mealRecipes")
     .then((recipe) => res.json(recipe))
     .catch((error) => res.json(error));
 });

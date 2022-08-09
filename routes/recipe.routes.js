@@ -2,6 +2,8 @@ const router = require("express").Router();
 
 const mongoose = require("mongoose");
 
+const fileUploader = require("../config/cloudinary.config");
+
 const Recipe = require("../models/Recipe.model");
 const User = require("../models/User.model");
 const WeeklyPlan = require("../models/WeeklyPlan.model");
@@ -18,6 +20,21 @@ router.get("/recipes", isAuthenticated, (req, res, next) => {
     })
     .catch((err) => res.json(err));
 });
+
+// CREATE IMAGE
+router.post(
+  "/upload",
+  fileUploader.single("img"),
+  isAuthenticated,
+  (req, res, next) => {
+    console.log(req.file.path);
+    if (!req.file) {
+      next(new Error("No file uploaded!"));
+      return;
+    }
+    res.json({ fileUrl: req.file.path });
+  }
+);
 
 //CREATE new recipe
 router.post("/recipes", isAuthenticated, (req, res, next) => {
@@ -62,17 +79,22 @@ router.get("/recipes/:recipeId", isAuthenticated, (req, res, next) => {
 });
 
 //UPDATE recipe
-router.put("/recipes/:recipeId", isAuthenticated, (req, res, next) => {
-  const { recipeId } = req.params;
+router.put(
+  "/recipes/:recipeId",
+  isAuthenticated,
+  fileUploader.single("img"),
+  (req, res, next) => {
+    const { recipeId } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(recipeId)) {
-    res.status(400).json({ message: "Specified id is not valid" });
-    return;
+    if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+      res.status(400).json({ message: "Specified id is not valid" });
+      return;
+    }
+
+    Recipe.findByIdAndUpdate(recipeId, req.body, { returnDocument: "after" })
+      .then((updatedRecipe) => res.json(updatedRecipe))
+      .catch((error) => res.json(error));
   }
-
-  Recipe.findByIdAndUpdate(recipeId, req.body, { returnDocument: "after" })
-    .then((updatedRecipe) => res.json(updatedRecipe))
-    .catch((error) => res.json(error));
-});
+);
 
 module.exports = router;

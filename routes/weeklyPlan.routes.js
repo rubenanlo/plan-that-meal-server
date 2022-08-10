@@ -53,7 +53,7 @@ router.get("/weeklyplans/:weeklyPlanId", isAuthenticated, (req, res, next) => {
 
   WeeklyPlan.findById(weeklyPlanId)
     .populate("mealRecipes")
-    .then((recipe) => res.json(recipe))
+    .then((weeklyplan) => res.json(weeklyplan))
     .catch((error) => res.json(error));
 });
 

@@ -2,14 +2,18 @@ const { Schema, model } = require("mongoose");
 
 const shoppingitemSchema = new Schema(
   {
-    description: { type: String },
+    date: {
+      type: Date,
+      default: () => Date.now(),
+    },
+    items: [{ description: String, quantity: String }],
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
-  {
-    quantity: { type: String },
-  },
-  {
-    timestamps: true,
-  }
+
+  { timestamps: true }
 );
 
 const ShoppingItem = model("ShoppingItem", shoppingitemSchema);

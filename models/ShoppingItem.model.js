@@ -6,7 +6,18 @@ const shoppingitemSchema = new Schema(
       type: Date,
       default: () => Date.now(),
     },
-    items: [{ description: String, quantity: String }],
+    items: {
+      type: Array,
+      itemSet: {
+        id: String,
+        description: String,
+        quantity: String,
+        isSelected: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",

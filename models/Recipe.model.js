@@ -2,7 +2,11 @@ const { Schema, model } = require("mongoose");
 
 const recipeSchema = new Schema(
   {
-    img: String,
+    img: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/dohwegeh8/image/upload/v1660257394/recipe-default_vaocv3.jpg",
+    },
     title: { type: String, required: true },
     description: { type: String, required: true },
     serving: { type: Number },

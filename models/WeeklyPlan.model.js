@@ -4,7 +4,6 @@ const weeklyplanSchema = new Schema(
   {
     startDate: {
       type: Date,
-      min: "2020-12-27",
       default: () => Date.now(),
     },
 

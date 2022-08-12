@@ -13,7 +13,7 @@ To use this application please please run the command $ npm install in your term
   - PORT=5005
   - SESSION_SECRET='keyboard cat'
   - ORIGIN=http://localhost:3000
-  - TOKEN_SECRET=S9p3rm1n
+  - TOKEN_SECRET=[CREATE YOUR OWN]
   - CLOUDINARY_NAME=[YOUR_CLOUDINARY]
   - CLOUDINARY_KEY=[YOUR KEY]
   - CLOUDINARY_SECRET=[YOUR SECRET]
